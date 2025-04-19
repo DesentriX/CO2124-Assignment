@@ -15,6 +15,64 @@ public class MRecord {
     private String treatment; // the treat prescribed to patient
     private String notes; //additional notes for the medical record
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Timestamp getRecordDate() {
+        return recordDate;
+    }
+
+    public void setRecordDate(Timestamp recordDate) {
+        this.recordDate = recordDate;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getTreatment() {
+        return treatment;
+    }
+
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Appointments getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Appointments appointments) {
+        this.appointments = appointments;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+
+
     @OneToOne
     @JoinColumn(name = "appointment_id")
     private Appointments appointments;
