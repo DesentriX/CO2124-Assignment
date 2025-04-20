@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">part2</string>
+    <string name="courses_list_content_description">List of courses</string>
+    <string name="course_code">Course Code</string>
+    <string name="course_name">Course Name</string>
+    <string name="lecturer_name">Lecturer Name</string>
+
+    <string name="add_course">Add New Course</string>
+    <string name="course_code_hint">Course Code</string>
+    <string name="course_name_hint">Course Name</string>
+    <string name="lecturer_name_hint">Lecturer Name</string>
+    <string name="create_button_text">Create</string>
+
+</resources>

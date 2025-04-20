@@ -1,0 +1,85 @@
+package com.example.part2.domain;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.part2.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private CourseViewModel courseViewModel;
+    private CourseListAdapter courseAdapter;
+
+    // Create an ActivityResultLauncher to handle the result from CreateCourseActivity
+    private final ActivityResultCallback<ActivityResult> activityResultCallback = new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            // Check if the result is OK
+            if (result.getResultCode() == RESULT_OK) {
+                Intent data = result.getData();
+                if (data != null) {
+                    // Retrieve the course data from the intent
+                    String courseCode = data.getStringExtra("courseCode");
+                    String courseName = data.getStringExtra("courseName");
+                    String lecturerName = data.getStringExtra("lecturerName");
+
+                    // Create a new Course object and insert it into the database
+                    Course newCourse = new Course();
+                    newCourse.setCourseCode(courseCode);
+                    newCourse.setCourseName(courseName);
+                    newCourse.setLecturerName(lecturerName);
+
+                    // Insert the new course into the database through the ViewModel
+                    courseViewModel.insert(newCourse);
+                }
+            }
+        }
+    };
+
+    // Register the activity result launcher to handle results
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), activityResultCallback);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
+        courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff());
+        recyclerView.setAdapter(courseAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        // Observe LiveData from the ViewModel
+        courseViewModel.getAllCourses().observe(this, courses -> {
+            courseAdapter.submitList(courses);
+        });
+
+        // Get reference to the FAB and set up an onClickListener
+        FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(view -> {
+            // Launch CreateCourseActivity and get the result when the user finishes
+            Intent intent = new Intent(MainActivity.this, CreateCourseActivity.class);
+            activityResultLauncher.launch(intent);
+        });
+    }
+}
