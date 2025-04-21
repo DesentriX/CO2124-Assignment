@@ -3,7 +3,6 @@ package com.example.part1.controller;
 import com.example.part1.domain.Doctor;
 import com.example.part1.domain.Patient;
 import com.example.part1.repo.PatientRepo;
-import jakarta.validation.Valid;
 import org.antlr.v4.runtime.atn.ErrorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +33,9 @@ public class PatientRestController {
 
     // Create a new patient
     @PostMapping("/patients")
-    public ResponseEntity<?> createPatient(@Valid @RequestBody Patient patient) {
-        Patient savedPatient = pRepo.save(patient);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(savedPatient);
+        @ResponseStatus(HttpStatus.CREATED)
+     public Patient createPatient(@RequestBody Patient patient) {
+         return pRepo.save(patient);
     }
 
 
@@ -53,7 +50,7 @@ public class PatientRestController {
     }
 
     //Update a specific patient by ID
-    @PutMapping("/patients/{id}")
+    @PutMapping("patients/{id}")
     public ResponseEntity<?> updatePatient(@PathVariable long id, @RequestBody Patient patient) {
         Patient p = pRepo.findById(id).orElse(null);
         if (p == null) {
@@ -78,7 +75,7 @@ public class PatientRestController {
 
 
     // List all appointments for a specific patient
-    @GetMapping("/patients/{id}/appointments")
+    @GetMapping("patients/{id}/appointments")
     public ResponseEntity<?> getAppointments(@PathVariable long id) {
         Patient p = pRepo.findById(id).orElse(null);
         if (p == null) {
@@ -90,7 +87,7 @@ public class PatientRestController {
     }
 
     // List all medical records for a specific patient
-    @GetMapping("/patients/{id}/medical-records")
+    @GetMapping("patients/{id}/medical-records")
     public ResponseEntity<?> getMedicalRecords(@PathVariable long id) {
         Patient p = pRepo.findById(id).orElse(null);
         if (p == null) {
