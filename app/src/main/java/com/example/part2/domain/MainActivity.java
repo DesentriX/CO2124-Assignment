@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.part2.R;
+import com.example.part2.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), activityResultCallback);
 
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
-        final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff());
+        final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff(), new CourseListAdapter.OnCourseClickListener() {
+            @Override
+            public void onCourseClick(Course course) {
+                Intent intent = new Intent(MainActivity.this, CourseDetailsActivity.class);
+                intent.putExtra("courseCode", course.getCourseCode());
+                intent.putExtra("courseName", course.getCourseName());
+                intent.putExtra("lecturerName", course.getLecturerName());
+                activityResultLauncher.launch(intent);
+            }
+        });
         recyclerView.setAdapter(courseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -73,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         courseViewModel.getAllCourses().observe(this, courses -> {
             courseAdapter.submitList(courses);
         });
+
 
         // Get reference to the FAB and set up an onClickListener
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);
