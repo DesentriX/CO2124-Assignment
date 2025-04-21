@@ -27,7 +27,7 @@ public class CourseListAdapter extends ListAdapter<Course, CourseViewHolder> {
     }
 
     // DiffUtil callback for detecting item differences
-    public static class CourseDiff extends DiffUtil.ItemCallback<Course> {
+    static class CourseDiff extends DiffUtil.ItemCallback<Course> {
 
         // Check if the items are the same based on their unique courseId
         @Override

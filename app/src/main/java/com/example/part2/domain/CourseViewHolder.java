@@ -23,9 +23,17 @@ public class CourseViewHolder extends RecyclerView.ViewHolder {
 
     // Bind data to the views
     public void bind(Course course) {
-        courseCode.setText(course.getCourseCode());
-        courseName.setText(course.getCourseName());
-        lecturerName.setText(course.getLecturerName());
+        String course_code = "Course Code: %s";
+        String formatted_course_code = String.format(course_code, course.getCourseCode());
+        courseCode.setText(formatted_course_code);
+
+        String course_name = "Course Name: %s";
+        String formatted_course_name = String.format(course_name, course.getCourseName());
+        courseName.setText(formatted_course_name);
+
+        String lecturer_name = "Lecturer Name: %s";
+        String formatted_lecturer_name = String.format(lecturer_name, course.getLecturerName());
+        lecturerName.setText(lecturer_name);
     }
 
     // Create a new ViewHolder by inflating the item layout

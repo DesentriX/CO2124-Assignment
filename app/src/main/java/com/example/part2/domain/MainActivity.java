@@ -25,7 +25,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private CourseViewModel courseViewModel;
-    private CourseListAdapter courseAdapter;
 
     // Create an ActivityResultLauncher to handle the result from CreateCourseActivity
     private final ActivityResultCallback<ActivityResult> activityResultCallback = new ActivityResultCallback<ActivityResult>() {
@@ -57,13 +56,14 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), activityResultCallback);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
-        courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff());
+        final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff());
         recyclerView.setAdapter(courseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
