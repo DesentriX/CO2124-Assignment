@@ -20,6 +20,10 @@ public class CourseRepository {
         return allCourses;
     }
 
+    public LiveData<CourseWithStudents> getCourseWithStudents(int courseId) {
+        return courseDao.getCourseWithStudentsLive(courseId);
+    }
+
     void insert(Course course) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             courseDao.insertCourse(course);

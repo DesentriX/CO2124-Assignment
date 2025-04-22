@@ -27,6 +27,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private CourseViewModel courseViewModel;
+    private StudentViewModel studentViewModel;
+    private StudentCourseDao studentCourseDao;
 
     // Create an ActivityResultLauncher to handle the result from CreateCourseActivity
     private final ActivityResultCallback<ActivityResult> activityResultCallback = new ActivityResultCallback<ActivityResult>() {
@@ -65,11 +67,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StudentViewModel studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        Course newCourse = new Course();
+        newCourse.setCourseName("Ko");
+        newCourse.setCourseCode("CO2012");
+        newCourse.setLecturerName("Timothy");
+        newCourse.setCourseId(12);
+
+        Student newStudent = new Student();
+        newStudent.setName("John Doe");
+        newStudent.setEmail("john@example.com");
+        newStudent.setUserName("JD124");
+        newStudent.setStudentId(9);
+
+        studentViewModel.insert(newStudent);
+
+
+        // Insert the student and the course - test data
+        studentViewModel.insert(newStudent);
+        courseViewModel.insert(newCourse);
+
+        // Associates the student with a course using the CrossRef table
+        CourseStudentCrossRef crossRef = new CourseStudentCrossRef();
+        crossRef.studentId = 9;
+        crossRef.courseId = 12;
+        studentViewModel.insertCrossRef(crossRef);
+
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
         final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff(), new CourseListAdapter.OnCourseClickListener() {
             @Override
             public void onCourseClick(Course course) {
                 Intent intent = new Intent(MainActivity.this, CourseDetailsActivity.class);
+                intent.putExtra("courseId", course.getCourseId());
                 intent.putExtra("courseCode", course.getCourseCode());
                 intent.putExtra("courseName", course.getCourseName());
                 intent.putExtra("lecturerName", course.getLecturerName());

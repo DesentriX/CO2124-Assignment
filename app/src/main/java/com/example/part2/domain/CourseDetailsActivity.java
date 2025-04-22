@@ -7,11 +7,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.part2.R;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     private TextView courseCode, courseName, lecturerName;
+    private CourseViewModel courseViewModel;
+    private StudentListAdapter studentListAdapter;
+    private RecyclerView studentsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         // Get the data
+        int courseId = getIntent().getIntExtra("courseId", -1);
         String course_code = intent.getStringExtra("courseCode");
         String course_name = intent.getStringExtra("courseName");
         String lecturer_name = intent.getStringExtra("lecturerName");
@@ -29,9 +36,21 @@ public class CourseDetailsActivity extends AppCompatActivity {
         courseCode = findViewById(R.id.textCourseCode);
         courseName = findViewById(R.id.textCourseName);
         lecturerName = findViewById(R.id.textLecturerName);
+        studentsRecyclerView = findViewById(R.id.studentsList);
 
         courseCode.setText("Course Code: " + course_code);
         courseName.setText("Course Name: " + course_name);
         lecturerName.setText("Lecturer: " + lecturer_name);
+
+        studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff());
+        studentsRecyclerView.setAdapter(studentListAdapter);
+        studentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+        courseViewModel.getCourseWithStudents(courseId).observe(this, courseWithStudents -> {
+            if (courseWithStudents != null && courseWithStudents.students != null) {
+                studentListAdapter.submitList(courseWithStudents.students);
+            }
+        });
     }
 }
