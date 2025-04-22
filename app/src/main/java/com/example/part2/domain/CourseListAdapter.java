@@ -18,6 +18,7 @@ public class CourseListAdapter extends ListAdapter<Course, CourseViewHolder> {
 
     public interface OnCourseClickListener {
         void onCourseClick(Course course);
+        void onCourseLongClick(Course course);
     }
 
 

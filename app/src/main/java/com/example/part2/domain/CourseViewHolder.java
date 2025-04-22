@@ -42,6 +42,11 @@ public class CourseViewHolder extends RecyclerView.ViewHolder {
         courseLayout.setOnClickListener(view -> {
             listener.onCourseClick(course);
         });
+
+        courseLayout.setOnLongClickListener(view -> {
+            listener.onCourseLongClick(course);
+            return true;
+        });
     }
 
     // Create a new ViewHolder by inflating the item layout

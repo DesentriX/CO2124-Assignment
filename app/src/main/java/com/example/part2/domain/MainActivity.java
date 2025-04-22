@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
@@ -105,6 +106,18 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("courseName", course.getCourseName());
                 intent.putExtra("lecturerName", course.getLecturerName());
                 activityResultLauncher.launch(intent);
+            }
+
+            @Override
+            public void onCourseLongClick(Course course) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete Course")
+                        .setMessage("Are you sure you want to delete this course and all enrollments?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            studentViewModel.deleteCourseAndEnrollments(course);
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             }
         });
         recyclerView.setAdapter(courseAdapter);

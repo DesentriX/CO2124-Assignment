@@ -33,6 +33,10 @@ public class StudentViewModel extends AndroidViewModel {
         screpo.insertCrossRef(crossRef);
     }
 
+    public void deleteCourseAndEnrollments(Course course) {
+        screpo.deleteCourseAndEnrollments(course);
+    }
+
     public void delete(Student student) {
         srepo.delete(student);
     }

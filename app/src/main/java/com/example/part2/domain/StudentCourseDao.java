@@ -21,6 +21,9 @@ public interface StudentCourseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertStudentCourseCrossRef(CourseStudentCrossRef crossRef);
 
+    @Query("DELETE FROM CourseStudentCrossRef WHERE courseId = :courseId")
+    void deleteCrossRefsForCourse(int courseId);
+
     @Transaction
     @Query("SELECT * FROM students WHERE studentId = :studentId")
     LiveData<List<StudentWithCourses>> getStudentWithCourses(int studentId);
