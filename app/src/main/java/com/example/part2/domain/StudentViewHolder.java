@@ -13,16 +13,19 @@ import com.example.part2.R;
 public class StudentViewHolder extends RecyclerView.ViewHolder {
     private final TextView studentNameTextView;
     private final TextView studentEmailTextView;
+    private final TextView studentMatricNumberTextView;
 
     public StudentViewHolder(@NonNull View itemView) {
         super(itemView);
         studentNameTextView = itemView.findViewById(R.id.textStudentName);
         studentEmailTextView = itemView.findViewById(R.id.textStudentEmail);
+        studentMatricNumberTextView = itemView.findViewById(R.id.textStudentMatricNumber);
     }
 
     public void bind(Student student) {
         studentNameTextView.setText("Name: " + student.getName());
         studentEmailTextView.setText("Email: " + student.getEmail());
+        studentMatricNumberTextView.setText("Matric Number: " + student.getUserName());
     }
 
     public static StudentViewHolder create(ViewGroup parent) {
