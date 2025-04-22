@@ -9,13 +9,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/courseRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/courses_list_content_description" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/big_padding"
+        tools:listitem="@layout/item_course" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

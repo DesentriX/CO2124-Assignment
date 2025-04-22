@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
@@ -13,13 +14,13 @@ import java.util.List;
 @Dao
 public interface CourseDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertCourse(Course course);
 
 
     @Transaction
     @Query("SELECT * FROM courses WHERE courseId = :courseId")
-    CourseWithStudents getCourseWithStudents(int courseId);
+    LiveData<CourseWithStudents> getCourseWithStudentsLive(int courseId);
 
     @Query("DELETE FROM CourseStudentCrossRef WHERE courseId = :courseId")
     void deleteCourseEnrollments(int courseId);

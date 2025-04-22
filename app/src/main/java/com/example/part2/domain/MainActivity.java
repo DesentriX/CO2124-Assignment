@@ -8,7 +8,9 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -18,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.part2.R;
+import com.example.part2.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -25,7 +28,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private CourseViewModel courseViewModel;
-    private CourseListAdapter courseAdapter;
+    private StudentViewModel studentViewModel;
+    private StudentCourseDao studentCourseDao;
 
     // Create an ActivityResultLauncher to handle the result from CreateCourseActivity
     private final ActivityResultCallback<ActivityResult> activityResultCallback = new ActivityResultCallback<ActivityResult>() {
@@ -57,13 +61,65 @@ public class MainActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), activityResultCallback);
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        StudentViewModel studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        Course newCourse = new Course();
+        newCourse.setCourseName("Ko");
+        newCourse.setCourseCode("CO2012");
+        newCourse.setLecturerName("Timothy");
+        newCourse.setCourseId(12);
+
+        Student newStudent = new Student();
+        newStudent.setName("John Doe");
+        newStudent.setEmail("john@example.com");
+        newStudent.setUserName("JD124");
+        newStudent.setStudentId(9);
+
+        studentViewModel.insert(newStudent);
+
+
+        // Insert the student and the course - test data
+        studentViewModel.insert(newStudent);
+        courseViewModel.insert(newCourse);
+
+        // Associates the student with a course using the CrossRef table
+        CourseStudentCrossRef crossRef = new CourseStudentCrossRef();
+        crossRef.studentId = 9;
+        crossRef.courseId = 12;
+        studentViewModel.insertCrossRef(crossRef);
+
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
-        courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff());
+        final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff(), new CourseListAdapter.OnCourseClickListener() {
+            @Override
+            public void onCourseClick(Course course) {
+                Intent intent = new Intent(MainActivity.this, CourseDetailsActivity.class);
+                intent.putExtra("courseId", course.getCourseId());
+                intent.putExtra("courseCode", course.getCourseCode());
+                intent.putExtra("courseName", course.getCourseName());
+                intent.putExtra("lecturerName", course.getLecturerName());
+                activityResultLauncher.launch(intent);
+            }
+
+            @Override
+            public void onCourseLongClick(Course course) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete Course")
+                        .setMessage("Are you sure you want to delete this course and all enrollments?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            studentViewModel.deleteCourseAndEnrollments(course);
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
         recyclerView.setAdapter(courseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -73,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         courseViewModel.getAllCourses().observe(this, courses -> {
             courseAdapter.submitList(courses);
         });
+
 
         // Get reference to the FAB and set up an onClickListener
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);

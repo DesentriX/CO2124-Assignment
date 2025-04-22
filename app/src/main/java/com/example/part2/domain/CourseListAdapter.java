@@ -8,10 +8,19 @@ import androidx.recyclerview.widget.ListAdapter;
 
 public class CourseListAdapter extends ListAdapter<Course, CourseViewHolder> {
 
+    private final OnCourseClickListener listener;
+
     // Constructor that takes a DiffUtil.ItemCallback for Course
-    public CourseListAdapter(@NonNull DiffUtil.ItemCallback<Course> diffCallback) {
+    public CourseListAdapter(@NonNull DiffUtil.ItemCallback<Course> diffCallback, OnCourseClickListener listener) {
         super(diffCallback);
+        this.listener = listener;
     }
+
+    public interface OnCourseClickListener {
+        void onCourseClick(Course course);
+        void onCourseLongClick(Course course);
+    }
+
 
     // Create a new ViewHolder and inflate the item layout
     @Override
@@ -23,11 +32,11 @@ public class CourseListAdapter extends ListAdapter<Course, CourseViewHolder> {
     @Override
     public void onBindViewHolder(CourseViewHolder holder, int position) {
         Course currentCourse = getItem(position);  // Get the current course from the list
-        holder.bind(currentCourse);  // Bind the course data to the ViewHolder
+        holder.bind(currentCourse, listener);  // Bind the course data to the ViewHolder
     }
 
     // DiffUtil callback for detecting item differences
-    public static class CourseDiff extends DiffUtil.ItemCallback<Course> {
+    static class CourseDiff extends DiffUtil.ItemCallback<Course> {
 
         // Check if the items are the same based on their unique courseId
         @Override

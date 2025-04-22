@@ -11,4 +11,8 @@
     <string name="lecturer_name_hint">Lecturer Name</string>
     <string name="create_button_text">Create</string>
 
+    <string name="student_name">Student Name</string>
+    <string name="student_email">Student Email</string>
+    <string name="student_matric_number">Student Matric Number</string>
+
 </resources>

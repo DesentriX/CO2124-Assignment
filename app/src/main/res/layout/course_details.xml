@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/courseLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:layout_marginTop="20dp"
-    android:clickable="true"
-    android:focusable="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent"
+    android:padding="@dimen/big_padding"
+    tools:context=".domain.MainActivity">
 
-    <!-- TextView for course code -->
-
-    <!-- TextView for course name -->
-
-    <!-- TextView for lecturer name -->
     <TextView
         android:id="@+id/textCourseCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/course_code"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -41,11 +35,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/lecturer_name"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textCourseName"
         app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/studentsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textLecturerName"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_student"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

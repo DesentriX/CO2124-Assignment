@@ -18,6 +18,10 @@ public class CourseViewModel extends AndroidViewModel {
         allCourses = crepo.getAllCourses();
     }
 
+    public LiveData<CourseWithStudents> getCourseWithStudents(int courseId) {
+        return crepo.getCourseWithStudents(courseId);
+    }
+
     LiveData<List<Course>> getAllCourses() {
         return allCourses;
     }

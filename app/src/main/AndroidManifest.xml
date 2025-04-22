@@ -24,6 +24,7 @@
 
 
         <activity android:name=".domain.CreateCourseActivity" />
+        <activity android:name=".domain.CourseDetailsActivity"/>
     </application>
 
 </manifest>
