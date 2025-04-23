@@ -25,6 +25,18 @@ public class StudentCourseRepository {
         });
     }
 
+    public Student getStudentByMatric(String matric) {
+        return studentCourseDao.getStudentByMatric(matric);
+    }
+
+    public boolean isStudentEnrolledInCourse(int studentId, int courseId) {
+        return studentCourseDao.isEnrolled(studentId, courseId) != null;
+    }
+
+    public long insertStudentAndReturnId(Student student) {
+        return studentCourseDao.insertStudentAndReturnId(student);
+    }
+
     public void insertCrossRef(CourseStudentCrossRef crossRef) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             studentCourseDao.insertStudentCourseCrossRef(crossRef);

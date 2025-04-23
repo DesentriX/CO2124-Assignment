@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.part2.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     private TextView courseCode, courseName, lecturerName;
@@ -51,6 +52,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
             if (courseWithStudents != null && courseWithStudents.students != null) {
                 studentListAdapter.submitList(courseWithStudents.students);
             }
+        });
+
+        FloatingActionButton fabAddStudent = findViewById(R.id.fab_add_student);
+        fabAddStudent.setOnClickListener(view -> {
+            Intent newIntent = new Intent(CourseDetailsActivity.this, AddStudentActivity.class);
+            newIntent.putExtra("courseId", courseId); // pass current course ID
+            startActivity(newIntent);
         });
     }
 }

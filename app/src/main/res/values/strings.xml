@@ -15,4 +15,10 @@
     <string name="student_email">Student Email</string>
     <string name="student_matric_number">Student Matric Number</string>
 
+    <string name="add_student">Add New Student</string>
+    <string name="student_name_hint">Student Name</string>
+    <string name="student_email_hint">Student Email</string>
+    <string name="student_matric_number_hint">Student Matric Number</string>
+    <string name="create_student_text">Create</string>
+
 </resources>
