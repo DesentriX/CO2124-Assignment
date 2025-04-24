@@ -1,5 +1,7 @@
 package com.example.part1.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -72,14 +74,18 @@ public class MRecord {
     }
 
 
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    @JsonIgnoreProperties({"appointments", "mRecords"})
+    private Patient patient;
+
+
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
+    @JsonIgnoreProperties({"patient", "doctor", "records"})
     private Appointments appointments;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
 
 
 }
