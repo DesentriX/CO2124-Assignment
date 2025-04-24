@@ -2,6 +2,7 @@ package com.example.part1.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -65,26 +66,29 @@ public class Patient {
         this.appointments = appointments;
     }
 
-    public List<MRecord> getRecords() {
-        return MRecords;
+    public List<MRecord> getmRecords() {
+        return mRecords;
     }
 
-    public void setRecords(List<MRecord> MRecords) {
-        this.MRecords = MRecords;
+    public void setmRecords(List<MRecord> mRecords) {
+        this.mRecords = mRecords;
     }
+
+
 
 
 
     @OneToMany(mappedBy = "patient" , cascade = CascadeType.ALL , orphanRemoval = true)
-    @JsonIgnore
+    @JsonIgnoreProperties({"patient", "records"})
     private List<Appointments> appointments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL , orphanRemoval = true)
-    private List<MRecord> MRecords = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL , orphanRemoval = true)
+    @JsonIgnoreProperties({"patient", "appointments"})
+    private List<MRecord> mRecords = new ArrayList<>();
+
+
 
 
 
