@@ -35,5 +35,5 @@ public interface StudentCourseDao {
 
     @Transaction
     @Query("SELECT * FROM students WHERE studentId = :studentId")
-    LiveData<List<StudentWithCourses>> getStudentWithCourses(int studentId);
+    LiveData<StudentWithCourses> getStudentWithCourses(int studentId);
 }

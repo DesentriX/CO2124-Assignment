@@ -2,6 +2,8 @@ package com.example.part2.domain;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 public class StudentCourseRepository {
 
     private final StudentCourseDao studentCourseDao;
@@ -17,6 +19,10 @@ public class StudentCourseRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             studentCourseDao.insertStudent(student);
         });
+    }
+
+    public LiveData<StudentWithCourses> getStudentWithCourses(int studentId) {
+        return studentCourseDao.getStudentWithCourses(studentId);
     }
 
     public void insertCourse(Course course) {

@@ -29,6 +29,10 @@ public class StudentViewModel extends AndroidViewModel {
         srepo.insert(student);
     }
 
+    public LiveData<StudentWithCourses> getStudentWithCourses(int studentId) {
+        return screpo.getStudentWithCourses(studentId);
+    }
+
     public void insertCrossRef(CourseStudentCrossRef crossRef) {
         screpo.insertCrossRef(crossRef);
     }

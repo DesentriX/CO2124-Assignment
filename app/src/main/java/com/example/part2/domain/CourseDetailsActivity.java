@@ -43,7 +43,14 @@ public class CourseDetailsActivity extends AppCompatActivity {
         courseName.setText("Course Name: " + course_name);
         lecturerName.setText("Lecturer: " + lecturer_name);
 
-        studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff());
+        StudentListAdapter studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff(), new StudentListAdapter.OnStudentClickListener() {
+            @Override
+            public void onStudentClick(Student student) {
+                Intent newIntent = new Intent(CourseDetailsActivity.this, StudentDetailsActivity.class);
+                newIntent.putExtra("studentId", student.getStudentId());
+                startActivity(newIntent);
+            }
+        });
         studentsRecyclerView.setAdapter(studentListAdapter);
         studentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
