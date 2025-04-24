@@ -1,6 +1,7 @@
 package com.example.part1.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -75,17 +76,22 @@ public class Appointments {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("appointments")
     private Doctor doctor;
 
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
-    @JsonIgnore
+    @JsonIgnoreProperties({"appointments", "mRecords"})
     private Patient patient;
 
 
-    @OneToOne
+    @OneToOne(
+    mappedBy = "appointments",
+    cascade   = CascadeType.ALL,
+    fetch     = FetchType.EAGER,
+    orphanRemoval = true)
+    @JsonIgnoreProperties({"appointments", "patient"})
     private MRecord records;
 
 
