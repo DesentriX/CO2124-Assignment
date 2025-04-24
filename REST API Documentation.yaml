@@ -458,9 +458,21 @@ paths:
                   type: string
                 notes:
                   type: string
+                patient:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                doctor:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
               required:
                 - appointmentDate
                 - status
+                - patient
+                - doctor
       responses:
         '201':
           description: Appointment created successfully
@@ -604,10 +616,22 @@ paths:
                   type: string
                 notes:
                   type: string
+                appointments:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                patient:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
               required:
                 - recordDate
                 - diagnosis
                 - treatment
+                - appointments
+                - patient
       responses:
         '201':
           description: Medical record created successfully
