@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.part2.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     private TextView courseCode, courseName, lecturerName;
@@ -42,7 +43,14 @@ public class CourseDetailsActivity extends AppCompatActivity {
         courseName.setText("Course Name: " + course_name);
         lecturerName.setText("Lecturer: " + lecturer_name);
 
-        studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff());
+        StudentListAdapter studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff(), new StudentListAdapter.OnStudentClickListener() {
+            @Override
+            public void onStudentClick(Student student) {
+                Intent newIntent = new Intent(CourseDetailsActivity.this, StudentDetailsActivity.class);
+                newIntent.putExtra("studentId", student.getStudentId());
+                startActivity(newIntent);
+            }
+        });
         studentsRecyclerView.setAdapter(studentListAdapter);
         studentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,6 +59,13 @@ public class CourseDetailsActivity extends AppCompatActivity {
             if (courseWithStudents != null && courseWithStudents.students != null) {
                 studentListAdapter.submitList(courseWithStudents.students);
             }
+        });
+
+        FloatingActionButton fabAddStudent = findViewById(R.id.fab_add_student);
+        fabAddStudent.setOnClickListener(view -> {
+            Intent newIntent = new Intent(CourseDetailsActivity.this, AddStudentActivity.class);
+            newIntent.putExtra("courseId", courseId); // pass current course ID
+            startActivity(newIntent);
         });
     }
 }

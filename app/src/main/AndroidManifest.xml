@@ -25,6 +25,8 @@
 
         <activity android:name=".domain.CreateCourseActivity" />
         <activity android:name=".domain.CourseDetailsActivity"/>
+        <activity android:name=".domain.AddStudentActivity"/>
+        <activity android:name=".domain.StudentDetailsActivity"/>
     </application>
 
 </manifest>

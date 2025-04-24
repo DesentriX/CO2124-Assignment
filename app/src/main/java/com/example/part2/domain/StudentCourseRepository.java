@@ -2,6 +2,8 @@ package com.example.part2.domain;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 public class StudentCourseRepository {
 
     private final StudentCourseDao studentCourseDao;
@@ -19,10 +21,26 @@ public class StudentCourseRepository {
         });
     }
 
+    public LiveData<StudentWithCourses> getStudentWithCourses(int studentId) {
+        return studentCourseDao.getStudentWithCourses(studentId);
+    }
+
     public void insertCourse(Course course) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             studentCourseDao.insertCourse(course);
         });
+    }
+
+    public Student getStudentByMatric(String matric) {
+        return studentCourseDao.getStudentByMatric(matric);
+    }
+
+    public boolean isStudentEnrolledInCourse(int studentId, int courseId) {
+        return studentCourseDao.isEnrolled(studentId, courseId) != null;
+    }
+
+    public long insertStudentAndReturnId(Student student) {
+        return studentCourseDao.insertStudentAndReturnId(student);
     }
 
     public void insertCrossRef(CourseStudentCrossRef crossRef) {
