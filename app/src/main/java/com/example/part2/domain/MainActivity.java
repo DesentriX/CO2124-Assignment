@@ -68,33 +68,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        StudentViewModel studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
+        studentViewModel = new ViewModelProvider(this).get(StudentViewModel.class);
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
-        Course newCourse = new Course();
-        newCourse.setCourseName("Ko");
-        newCourse.setCourseCode("CO2012");
-        newCourse.setLecturerName("Timothy");
-        newCourse.setCourseId(12);
-
-        Student newStudent = new Student();
-        newStudent.setName("John Doe");
-        newStudent.setEmail("john@example.com");
-        newStudent.setUserName("JD124");
-        newStudent.setStudentId(9);
-
-        studentViewModel.insert(newStudent);
+//        Course newCourse = new Course();
+//        newCourse.setCourseName("Ko");
+//        newCourse.setCourseCode("CO2012");
+//        newCourse.setLecturerName("Timothy");
+//        newCourse.setCourseId(12);
+//
+//        Student newStudent = new Student();
+//        newStudent.setName("John Doe");
+//        newStudent.setEmail("john@example.com");
+//        newStudent.setUserName("JD124");
+//        newStudent.setStudentId(9);
+//
+//        studentViewModel.insert(newStudent);
 
 
         // Insert the student and the course - test data
-        studentViewModel.insert(newStudent);
-        courseViewModel.insert(newCourse);
+//        studentViewModel.insert(newStudent);
+//        courseViewModel.insert(newCourse);
 
         // Associates the student with a course using the CrossRef table
         CourseStudentCrossRef crossRef = new CourseStudentCrossRef();
-        crossRef.studentId = 9;
-        crossRef.courseId = 12;
-        studentViewModel.insertCrossRef(crossRef);
+//        crossRef.studentId = 9;
+//        crossRef.courseId = 12;
+//        studentViewModel.insertCrossRef(crossRef);
 
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
         final CourseListAdapter courseAdapter = new CourseListAdapter(new CourseListAdapter.CourseDiff(), new CourseListAdapter.OnCourseClickListener() {
