@@ -1,5 +1,6 @@
 package com.example.part1.controller;
 
+import com.example.part1.domain.Appointments;
 import com.example.part1.domain.Doctor;
 import com.example.part1.domain.Patient;
 import com.example.part1.repo.PatientRepo;
@@ -23,7 +24,7 @@ public class PatientRestController {
         return "API is running";
     }
 
-    // PATIENTS//
+                                                  // PATIENTS//
 
     // List all patients
     @GetMapping("/patients")
@@ -33,9 +34,9 @@ public class PatientRestController {
 
     // Create a new patient
     @PostMapping("/patients")
-        @ResponseStatus(HttpStatus.CREATED)
-     public Patient createPatient(@RequestBody Patient patient) {
-         return pRepo.save(patient);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Patient createPatient(@RequestBody Patient patient) {
+        return pRepo.save(patient);
     }
 
 
@@ -57,10 +58,14 @@ public class PatientRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + id + " not found.");
         }
         p.setName(patient.getName());
+        p.setEmail(patient.getEmail());
+        p.setAddress(patient.getAddress());
+        p.setPhoneNumber(patient.getPhoneNumber());
         p.setPhoneNumber(String.valueOf(patient.getPhoneNumber()));
         pRepo.save(p);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    //test
 
     //Delete a specific patient by ID
     @DeleteMapping("patients/{id}")
@@ -76,10 +81,10 @@ public class PatientRestController {
 
     // List all appointments for a specific patient
     @GetMapping("patients/{id}/appointments")
-    public ResponseEntity<?> getAppointments(@PathVariable long id) {
+    public ResponseEntity<List<Appointments>> getAppointments(@PathVariable long id) {
         Patient p = pRepo.findById(id).orElse(null);
         if (p == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + id + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
         }
         return new ResponseEntity<>(p.getAppointments(), HttpStatus.OK);
@@ -93,6 +98,18 @@ public class PatientRestController {
         if (p == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Patient with ID " + id + " not found.");
         }
-        return new ResponseEntity<>(p.getRecords(), HttpStatus.OK);
+        return new ResponseEntity<>(p.getmRecords(), HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }
