@@ -21,4 +21,9 @@
     <string name="student_matric_number_hint">Student Matric Number</string>
     <string name="create_student_text">Create</string>
 
+
+    //Q7
+    <string name="student_matric_hint">Matric Number</string>
+    <string name="save_button">Save</string>
+
 </resources>

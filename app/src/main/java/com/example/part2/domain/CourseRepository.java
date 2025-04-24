@@ -35,4 +35,13 @@ public class CourseRepository {
             courseDao.deleteCourse(course);
         });
     }
+
+
+    //Q7
+    public void unenrollStudentFromCourse(int studentId, int courseId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            courseDao.unenrollStudentFromCourse(studentId, courseId);
+        });
+    }
+
 }

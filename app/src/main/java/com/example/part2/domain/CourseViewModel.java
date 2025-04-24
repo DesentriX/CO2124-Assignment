@@ -10,12 +10,16 @@ import java.util.List;
 public class CourseViewModel extends AndroidViewModel {
 
     private CourseRepository crepo;
+
+    private StudentRepository srepo;
     private final LiveData<List<Course>> allCourses;
 
     public CourseViewModel(Application application) {
         super(application);
         crepo = new CourseRepository(application);
+        srepo = new StudentRepository(application);
         allCourses = crepo.getAllCourses();
+
     }
 
     public LiveData<CourseWithStudents> getCourseWithStudents(int courseId) {
@@ -33,5 +37,12 @@ public class CourseViewModel extends AndroidViewModel {
     public void delete(Course course) {
         crepo.delete(course);
     }
+
+
+    // Q7
+    public void unenrollStudentFromCourse(int studentId, int courseId) {
+        srepo.removeStudentFromCourse(studentId);
+    }
+
 
 }

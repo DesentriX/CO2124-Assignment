@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(
-        entities = {Course.class, Student.class, CourseStudentCrossRef.class}, version = 1 , exportSchema = false)
+        entities = {Course.class, Student.class, CourseStudentCrossRef.class}, version = 4 , exportSchema = false)
 
 public abstract class AppDatabase  extends RoomDatabase {
 
@@ -31,10 +31,11 @@ public abstract class AppDatabase  extends RoomDatabase {
                         synchronized (AppDatabase.class) {
                                 if (INSTANCE == null) {
                                         INSTANCE = Room.databaseBuilder(
-                                                context.getApplicationContext(),
+                                                context
+                                                        .getApplicationContext(),
                                                 AppDatabase.class,
                                                 "cms_db"
-                                        ).build();
+                                        ).fallbackToDestructiveMigration().build();
                                 }
                         }
                 }

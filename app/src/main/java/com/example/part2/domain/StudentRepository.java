@@ -1,6 +1,7 @@
 package com.example.part2.domain;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -22,6 +23,7 @@ public class StudentRepository {
 
     void insert(Student student) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
+            Log.d("StudentRepo", "Inserting student: " + student.getName() + ", " + student.getUserName());
             studentDao.insertStudent(student);
         });
     }
@@ -31,4 +33,24 @@ public class StudentRepository {
             studentDao.deleteStudent(student);
         });
     }
+
+    public void removeStudentFromCourse(int studentId) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            studentDao.deleteStudentEnrollments(studentId);  // Remove the student from the course
+        });
+    }
+
+
+
+    //Q7
+    public LiveData<Student> getStudentById(int studentId) {
+        return studentDao.getStudentById(studentId);
+    }
+
+    public void update(Student student) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            studentDao.updateStudent(student);
+        });
+    }
+
 }

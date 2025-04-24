@@ -45,4 +45,17 @@ public class StudentViewModel extends AndroidViewModel {
         srepo.delete(student);
     }
 
+
+    //Q7 - josh
+    public LiveData<Student> getStudentById(int studentId) {
+        return srepo.getStudentById(studentId);
+    }
+
+    public void update(Student student) {
+        srepo.update(student);
+    }
+
+
+
+
 }

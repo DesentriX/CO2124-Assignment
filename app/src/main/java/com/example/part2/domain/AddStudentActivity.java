@@ -1,6 +1,7 @@
 package com.example.part2.domain;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,9 +34,14 @@ public class AddStudentActivity extends AppCompatActivity {
         addStudentButton = findViewById(R.id.createStudentButton);
 
         addStudentButton.setOnClickListener(v -> {
+
+
             String name = editStudentName.getText().toString().trim();
             String email = editStudentEmail.getText().toString().trim();
             String matricNumber = editStudentMatricNumber.getText().toString().trim();
+
+            Log.d("MatricDebug", "Matric field text: '" + matricNumber + "'");
+
 
             if (name.isEmpty() || email.isEmpty() || matricNumber.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();

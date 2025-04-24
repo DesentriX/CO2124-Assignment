@@ -3,6 +3,7 @@ package com.example.part2.domain;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "students")
@@ -18,9 +19,12 @@ public class Student {
 
     public String email;
 
+
     @NonNull
     @ColumnInfo(name = "username")
-    public String UserName;
+    public String userName;
+
+
 
     public int getStudentId() {
         return studentId;
@@ -49,12 +53,21 @@ public class Student {
 
     @NonNull
     public String getUserName() {
-        return UserName;
+        return userName;
     }
 
     public void setUserName(@NonNull String userName) {
-        UserName = userName;
+        this.userName = userName;
     }
+
+
+public Student(
+
+){
+
+}
+
+
 
 
 }

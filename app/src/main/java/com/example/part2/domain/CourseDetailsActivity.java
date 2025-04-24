@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,11 +46,24 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
         StudentListAdapter studentListAdapter = new StudentListAdapter(new StudentListAdapter.StudentDiff(), new StudentListAdapter.OnStudentClickListener() {
             @Override
+            //Q7
             public void onStudentClick(Student student) {
-                Intent newIntent = new Intent(CourseDetailsActivity.this, StudentDetailsActivity.class);
-                newIntent.putExtra("studentId", student.getStudentId());
-                startActivity(newIntent);
+                new AlertDialog.Builder(CourseDetailsActivity.this)
+                        .setTitle("Choose an action")
+                        .setItems(new String[]{"Edit", "Remove"}, (dialog, which) -> {
+                            if (which == 0) {
+                                // Edit
+                                Intent intent = new Intent(CourseDetailsActivity.this, EditStudentActivity.class);
+                                intent.putExtra("studentId", student.getStudentId());
+                                startActivity(intent);
+                            } else if (which == 1) {
+                                // Remove student from course (not delete the student entirely)
+                                courseViewModel.unenrollStudentFromCourse(student.getStudentId(), courseId);
+                            }
+                        })
+                        .show();
             }
+
         });
         studentsRecyclerView.setAdapter(studentListAdapter);
         studentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,5 +81,11 @@ public class CourseDetailsActivity extends AppCompatActivity {
             newIntent.putExtra("courseId", courseId); // pass current course ID
             startActivity(newIntent);
         });
+
+
+
+
+
+
     }
 }

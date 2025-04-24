@@ -31,5 +31,9 @@ public interface CourseDao {
     @Delete
     void deleteCourse(Course course);
 
+    @Query("DELETE FROM CourseStudentCrossRef WHERE studentId = :studentId AND courseId = :courseId")
+    void unenrollStudentFromCourse(int studentId, int courseId);
+
+
 
 }
