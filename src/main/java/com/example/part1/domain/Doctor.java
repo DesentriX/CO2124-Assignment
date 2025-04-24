@@ -56,13 +56,6 @@ public class Doctor {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
-
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
 
     public List<Appointments> getAppointments() {
         return appointments;
@@ -76,8 +69,7 @@ public class Doctor {
 
 
 
-    @OneToMany(mappedBy = "doctor")
-    private List<Patient> patients = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
