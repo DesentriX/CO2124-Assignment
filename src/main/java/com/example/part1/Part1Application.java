@@ -37,6 +37,7 @@ public class Part1Application  implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		/*
 		Patient p = new Patient();
 		p.setName("John Doe");
 		p.setPhoneNumber("12134241412");
@@ -59,7 +60,7 @@ public class Part1Application  implements CommandLineRunner {
 		aR.save(ap1);
 
 
-
+*/
 
 
 	}
